@@ -112,5 +112,39 @@ describe "Hand" do
 
   end
 
+  context "#beats_hand" do
+
+    let(:royal_flush) {Hand.new( [sA, sK, sQ, sJ, sT])}
+    let(:straight_flush) {Hand.new( [s9, sK, sQ, sJ, sT] )}
+    let(:four_of_a_kind) {Hand.new( [sA, hA, dA, cA, s2] )}
+    let(:full_house)     {Hand.new( [sA, hA, dA, s2, s2] )}
+    let(:flush)          {Hand.new( [s2, s3, s4, s5, sK] )}
+    let(:straight)       {Hand.new( [s2, s3, s4, s5, dA] )}
+    let(:three_of_a_kind){Hand.new( [sA, hA, dA, s3, s5] )}
+    let(:two_pair)       {Hand.new( [sA, hA, s2, s2, s5] )}
+    let(:one_pair)       {Hand.new( [sA, hA, s2, s3, s5] )}
+    let(:high_card)      {Hand.new( [s2, s4, s6, s9, cA] )}
+
+    let(:inferior_four_of_a_kind) {Hand.new( [sK, sK, sK, sK, hA] )}
+
+    it "High hand beats lower hand" do
+      expect(royal_flush.beats_hand(straight_flush)).to be(:won)
+    end
+
+    it "Lower hand does not beat higher hand" do
+      expect(straight_flush.beats_hand(royal_flush)).to be(:lost)
+    end
+
+    it "Trick does not beat equivalent trick" do
+      expect(two_pair.beats_hand(two_pair)).to be(:draw)
+    end
+
+    it "Better trick beats other, same trick" do
+      expect(four_of_a_kind.beats_hand(inferior_four_of_a_kind)).to be(:won)
+    end
+
+
+  end
+
 
 end
