@@ -30,6 +30,18 @@ class Hand
     end
   end
 
+  def display
+    p self.cards.map { |card| [card.rank, card.suit] }
+  end
+
+  def add_cards(new_cards)
+    raise "Can't receive more than 3 cards." if new_cards.count > 3
+    raise "Can't have more than 5 cards." if self.cards.count + new_cards.count > 5
+
+    @cards += new_cards
+  end
+
+
   def beats_hand(other_hand)
     return :won if HAND_RANKS[self.evaluate_hand] > HAND_RANKS[other_hand.evaluate_hand]
     return :lost if HAND_RANKS[self.evaluate_hand] < HAND_RANKS[other_hand.evaluate_hand]

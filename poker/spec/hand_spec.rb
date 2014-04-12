@@ -64,7 +64,21 @@ describe "Hand" do
   end
 
   context "#add_cards" do
-    it "should add a set of cards from the dealer to the hand"
+
+    it "should raise an exception if a player would receive more than 3 cards" do
+      expect{ hand.add_cards([c1, c2, c3, c4]) }.to raise_exception ( "Can't receive more than 3 cards." )
+    end
+
+    it "should raise an exception if a hand would contain more than 5 cards" do
+      expect{ hand.add_cards([c1, c3, c4]) }.to raise_exception ( "Can't have more than 5 cards." )
+    end
+
+    it "should add a set of cards from the dealer to the hand" do
+      hand.discard_cards([1, 2])
+      hand.add_cards( [c4, c5] )
+      expect(hand.cards.count).to eq(5)
+    end
+
   end
 
   context "#evaluate_hand" do
